@@ -16,6 +16,9 @@ local add_gold = 888880000
 local weapon_skill = {173,54,44,43,136,95,45,228,226,46,473,160,172,55,118,176,162,229}
 -- 烹饪/珠宝/200/213牌子各500个
 local add_p_item = {41596,43016,40752,40753}
+-- 一套猎人装备
+local add_hunter_item = {48272,48270,48274,48271,50114,47989,47311,47296,48007,47282,50198,45609,48056,47267,47257,47988}
+
 
 local add_paizi_msg = "我需要50个"
 local add_paizi = {
@@ -122,6 +125,7 @@ local function OnGossipHello(event, player, creature)
 	for i,v in ipairs(add_paizi) do
 		player:GossipMenuAddItem(menu_icon, add_paizi_msg..v[1], 0, v[2])
 	end
+	player:GossipMenuAddItem(menu_icon, "给我准备一套猎人小弟穿的装备吧...", 0, 105)
 	player:GossipMenuAddItem(menu_icon, menu_3_msg, 0, 103)
 	player:GossipMenuAddItem(menu_icon, "再见", 0, 104)
 	player:GossipSendMenu(100, creature, 1)
@@ -156,6 +160,10 @@ local function OnGossipSelect(event, player, creature, intid1, slotid)
 		player:SendListInventory(creature)
 	elseif slotid == 104 then
 		-- do nothing
+	elseif slotid == 105 then
+		for i,v in ipairs(add_hunter_item) do
+			player:AddItem(v)
+		end
 	else
 		add_50_paizi(event, player, creature, intid1, slotid)
 	end
