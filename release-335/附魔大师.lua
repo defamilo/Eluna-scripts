@@ -12,7 +12,7 @@ local T = {
         {"胸部", 4},
         {"护腕", 8},
         {"手套", 9},
-        {"腰带", 5},
+        --{"腰带", 5},
         {"腿部", 6},
         {"脚", 7},
         {"主手武器", 15},
@@ -68,7 +68,9 @@ local T = {
         {"+55 耐力，+22 敏捷", 3822, false},
         {"+75 攻击强度，+22 爆击等级", 3823, false},
         {"+50 法术强度，+20 精神", 3719, false},
-        {"+50 法术强度，+30 耐力", 3721, false}
+        {"+50 法术强度，+30 耐力", 3721, false},
+        {"+72 耐力，+35 敏捷", 3331, false},
+        {"+100 攻击强度，+36 爆击等级", 3332, false},
     },
     [7] = {
         -- 鞋
@@ -83,7 +85,7 @@ local T = {
     },
     [8] = {
         -- 护腕
-        {"(锻造) 护腕插槽", 3717, false},
+        --{"(锻造) 护腕插槽", 3717, false},
         {"+40 耐力", 3850, false},
         {"+30 法术强度", 2332, false},
         {"+50 攻击强度", 3845, false},
@@ -95,7 +97,7 @@ local T = {
     },
     [9] = {
         -- 手套
-        {"(锻造) 手套插槽", 3723, false},
+        --{"(锻造) 手套插槽", 3723, false},
         {"(工程) +885护甲值", 3860, false},
         {"(工程) 超级加速器", 3604, false},
         {"+2% 坐骑速度", 930, false},
@@ -188,7 +190,7 @@ function Enchanter(event, player, unit)
     pVar[player:GetName()] = nil
 
     for _, v in ipairs(T["Menu"]) do
-        player:GossipMenuAddItem(3, "|cFFffffff " .. v[1] .. ".|R", 0, v[2])
+        player:GossipMenuAddItem(3, v[1], 0, v[2])
     end
     player:GossipSendMenu(1, unit)
 end
@@ -205,7 +207,7 @@ function EnchanterSelect(event, player, unit, sender, intid, code)
         if (T[ID]) then
             for i, v in ipairs(T[ID]) do
                 if ((not f and not v[3]) or (f and v[3])) then
-                    player:GossipMenuAddItem(3, "|cFFffffff " .. v[1] .. ".|R", 0, v[2])
+                    player:GossipMenuAddItem(3, v[1], 0, v[2])
                 end
             end
         end
