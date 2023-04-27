@@ -17,6 +17,15 @@ local weapon_skill = {173,54,44,43,136,95,45,228,226,46,473,160,172,55,118,176,1
 -- 烹饪/珠宝/200/213牌子各500个
 local add_p_item = {41596,43016,40752,40753}
 
+local add_paizi_msg = "我需要50个"
+local add_paizi = {
+	{"英雄纹章-200等级",40752},
+	{"勇气纹章-213等级",40753},
+	{"征服纹章-226等级",45624},
+	{"凯旋纹章-245等级",47241},
+	{"寒冰纹章-264等级",49426}
+}
+
 local CLASS_DEATH_KNIGHT	= 6		--死亡骑士
 
 local RACE_NONE               = 0  -- SKIP
@@ -97,13 +106,27 @@ local function dk_up(event, player, creature, intid1, slotid)
 
 end
 
+--毛50个牌子
+local function add_50_paizi(event, player, creature, intid1, paiziId)
+	if paiziId == 49426 then
+		player:SendBroadcastMessage("264的牌子现在当然是不可能发的啦！")
+	else
+		player:AddItem(paiziId, 50)
+	end
+	player:GossipComplete()
+end
+
 local function OnGossipHello(event, player, creature)
 	player:GossipMenuAddItem(menu_icon, menu_1_msg, 0, 101)
 	player:GossipMenuAddItem(menu_icon, menu_2_msg, 0, 102)
+	for i,v in ipairs(add_paizi) do
+		player:GossipMenuAddItem(menu_icon, add_paizi_msg..v[1], 0, v[2])
+	end
 	player:GossipMenuAddItem(menu_icon, menu_3_msg, 0, 103)
 	player:GossipMenuAddItem(menu_icon, "再见", 0, 104)
 	player:GossipSendMenu(100, creature, 1)
 end
+
 
 local function OnGossipSelect(event, player, creature, intid1, slotid)
 	if slotid == 101 then
@@ -131,6 +154,10 @@ local function OnGossipSelect(event, player, creature, intid1, slotid)
 		player:SaveToDB()
 	elseif slotid == 103 then
 		player:SendListInventory(creature)
+	elseif slotid == 104 then
+		-- do nothing
+	else
+		add_50_paizi(event, player, creature, intid1, slotid)
 	end
 	player:GossipComplete()
 end
